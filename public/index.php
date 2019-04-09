@@ -1,7 +1,7 @@
 <?php
 $title = 'Accueil';
 ?>
-<?php require 'elements' . DIRECTORY_SEPARATOR . 'header.php'; ?>
+<?php require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'elements' . DIRECTORY_SEPARATOR . 'header.php'; ?>
 
 <div class="container">
     <div class="row">
@@ -49,4 +49,10 @@ $title = 'Accueil';
 
     </div>
 </div>
-<?php require 'elements' . DIRECTORY_SEPARATOR . 'footer.php';
+
+<?php 
+require_once dirname(__dir__) . '/class/Igdb.php';
+$igdb= new Igdb("665a4a7b1bcc4222453547bbcd4455f2");
+$igdb->getGames();
+?>
+<?php require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'elements' . DIRECTORY_SEPARATOR . 'footer.php';
