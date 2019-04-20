@@ -1,5 +1,9 @@
 <?php
-class Igdb {
+
+namespace App;
+
+class Igdb
+{
     private $apiKey;
 
     public function __construct(string $apiKey)
@@ -7,8 +11,15 @@ class Igdb {
         $this->apiKey = $apiKey;
     }
 
-    public function getGames(){
-        $data = $this->callAPI("platforms");
+
+    public function getGameRange(string $gameName){
+        $data = $this->callAPI("games");
+    }
+
+
+    public function getLastGames(): array
+    {
+        $data = $this->callAPI("games","fields name");
         echo '<pre>';
         var_dump($data);
         echo '</pre>';
@@ -17,8 +28,10 @@ class Igdb {
             'description' => $data['weather'][0]['description'],
             'date' => new DateTime()
         ]; */
+
+        return $data;
     }
-    private function callAPI(string $endpoint): ?array
+    private function callAPI(string $endpoint,string $post_fields): ?array
     {
         $curl = curl_init("https://api-v3.igdb.com/{$endpoint}");
         curl_setopt_array($curl, [
@@ -30,7 +43,7 @@ class Igdb {
                 "user-key:{$this->apiKey}",
                 "Accept: application/json"
             ],
-            CURLOPT_POSTFIELDS => "fields name; limit 20", //sql-like query
+            CURLOPT_POSTFIELDS => "{$post_fields};", //sql-like query
             CURLOPT_VERBOSE => true
         ]);
         $data = curl_exec($curl);
@@ -39,5 +52,4 @@ class Igdb {
         }
         return json_decode($data, true);
     }
-    
 }

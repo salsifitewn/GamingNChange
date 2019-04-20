@@ -9,7 +9,7 @@
     
 </head>
 <body>
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
 
   <a class="navbar-brand" href=""><img class="img-fluid" width="36" height="36" src="assets\logo.svg" alt="GameNchange.fr"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,3 +76,11 @@
     </div>
   </div>
 </div>
+
+<?=$pageContent?>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="assets/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+</body>
+</html>

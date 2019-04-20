@@ -3,9 +3,8 @@
         "host" : "localhost",
         "user" : "witan",
         "password": "l1nk3602",
-        "dbname":"gamenchange.fr;"
+        "dbname":"gamenchange.fr"
     },
-    "igdb":{
-        "api_key": "665a4a7b1bcc4222453547bbcd4455f2"
-    }
+    "igdb_api_key":"665a4a7b1bcc4222453547bbcd4455f2"
+    
 }

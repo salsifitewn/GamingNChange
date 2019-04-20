@@ -1,0 +1,3 @@
+rsync -av  --exclude '.git' --delete /mnt/c/Users/witan/Seafile/Ma\ bibliothèque/Cnam/NFA021/Gamenchange.fr/ witan@192.168.0.35:/var/www/Gamenchange.fr
+
+rsync -avn --exclude '.git' --delete /mnt/d/Media/Cloud/witan/Seafile/Ma\ bibliothèque/Cnam/NFA021/Gamenchange.fr/ witan@192.168.0.35:/var/www/Gamenchange.fr
