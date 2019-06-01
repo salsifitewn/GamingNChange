@@ -1,8 +1,8 @@
 <?php
-namespace App\Database;
+namespace App\Table;
 
 
-class Games extends Database
+class Games extends Table
 {
     public function addGames()
     { 
