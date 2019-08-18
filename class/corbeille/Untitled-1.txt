@@ -1,0 +1,47 @@
+    $query = $pdo->query("select * from user_collection where gameid={$_GET['id']}");
+    $collection = $query->fetchall(pdo::FETCH_ASSOC);
+    $query2 = $pdo->prepare("select username from users where id=:id");
+    $query3 = $pdo->prepare("select * from platform where id=:id ");
+    //$query3 = $pdo->prepare("select * from platform_released_games where id_game={$game['id']} and id_platform=:id ");
+
+<div class="table-responsive-sm">
+        <table class="table">
+            <thead>Liste des propriétaires souhaitant vendre le jeu</thead>
+            <tr>
+                <th>Utilisateur</th>
+                <th>Plateforme</th>
+                <th>Nombre de jeu à vendre</th>
+                <th>Choix</th>
+            </tr>
+            <?php foreach ($collection as $vente) : ?>
+                <?php if ($vente['quantityToSell'] > 0) : ?>
+                    <?php $query2->execute([
+                        'id' => $vente['userid']
+                    ]);
+                    $user = $query2->fetch(pdo::FETCH_ASSOC);
+                    $query3->execute([
+                        'id' => $vente['platformid']
+                    ]);
+                    $platform = $query3->fetch(pdo::FETCH_ASSOC);
+                    $url = "propriétaire=" . $vente['userid'] . "&gameid=" . $game['id'] . "&platform=" . $vente['platformid'];
+                    ?>
+                    <tr>
+                        <td><?= $user['name'] ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?= $platform['id'] ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?= $vente['quantityToSell'] ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a class="btn" href="demande?<?= $url ?>">demande</a>
+                        </td>
+                    </tr>
+                <?php endif ?>
+            <?php endforeach ?>
+        </table>
+    </div>

@@ -1,9 +1,21 @@
 <?php
-use App\Igdb;
+
 use App\Helpers\Text;
 
 $title = 'Accueil';
+$backgroundimg="img/background.jpg";
+$logout=$_GET['logout']??0;
 ?>
+<div class="container mt-4 ">
+    <?php if ($logout==1) : ?>
+        <div class="alert alert-info alert-dismissible fade show">
+            Vous avez bien été déconnecté
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+        </div>
+    <?php endif ?>
+</div>
 <!-- <div class="container">
     
     <div class="row">
@@ -39,38 +51,25 @@ $title = 'Accueil';
 </div> -->
 <?php
 //  require_once dirname(__dir__) . '/class/Igdb.php';
- $igdb = new Igdb("665a4a7b1bcc4222453547bbcd4455f2");
+/* $igdb = new Igdb("665a4a7b1bcc4222453547bbcd4455f2");
 $games = $igdb->getLastGames();
- 
-
-
+ */
+$pdo = App\Connect::getDB();
+$query = $pdo->query("select distinct games.* from games,user_collection where user_collection.gameid=games.id ORDER BY RAND( ) LIMIT 12");
+$games = $query->fetchAll(PDO::FETCH_CLASS,'App\Model\Game');
 /* $publisherid=""; 
 foreach ($games as $game){
     $publisherid .= (",".$game['involved_companies'][0])??null;
 }
 echo $publisherid; */
 ?>
-<div class="container mt-4">
-    <div class="row">
-        <?php if (!is_null($games)) :?>
-        <?php foreach ($games as $game) : ?>
-            <?php $url = Igdb::getCover($game['cover']['url'] ?? ''); ?>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="card mb-3">
-                    <img src="<?= $url ?? '...' ?>" class="card-img-top thumbnail" alt="<?= $game['name'] ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $game['name'] ?></h5>
-                        <!-- <p class="card-text"> ?=$igdb->getPublisher($game['id'])?></p> -->
-
-                        <p class="card-text"><?= Text::excerpt($game['summary'] ?? 'Pas de Résumé', 100) ?></p>
-
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
+<div class="container mt-2 ">
+    <h2>Sélection de quelques titres disponibles</h2>
+<div class="row">
+                <?php foreach ($games as $game) :
+                    require(dirname(__DIR__) . "/view/elements/cardGame.php");
+                endforeach ?>
             </div>
-        <?php endforeach ?>
-        <?php endif ?>
     </div>
 </div>
 <?php //require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'elements' . DIRECTORY_SEPARATOR . 'layout.php'; 

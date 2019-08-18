@@ -4,7 +4,7 @@
 
 
 */
-
+namespace App;
 class App
 {
     //private $settings=[];
@@ -20,10 +20,11 @@ class App
     }
 
 
-    public static function getTable($name)
+    public  function getTable($name)
     {
 
-        $class_name  = 'App\Table\'' . ucfirst($name) . 'Table';
+        $class_name  = '\\App\\Table\\' . ucfirst($name) . 'Table';
         return new $class_name();
     }
+
 }

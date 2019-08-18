@@ -3,8 +3,9 @@
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
 
 use App\Router;
+use App\Connect;
+define("ROOT_IMG",'/img/');
 define ('DEBUG_TIME',microtime(true));
-
 $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
@@ -12,11 +13,17 @@ $whoops->register();
 $router = new Router(dirname(__DIR__).'/view');
 $router->get('/jeu','fichejeu');
 $router->get('/login','login');
-$router->get('/login','login');
 $router->get('/logout','logout');
-
+$router->get('/ajoutjeu','ajoutjeu');
+$router->get('/recherche','rechercheJeux');
+$router->get('/mon_inventaire','inventaire');
+$router->get('/ajouterJeuWishlist','addWishList');
+$router->get("/Wishlist",'wishList');
 $router->get('/','accueil');
 $router->get('/admin','admin');
+$router->get('/ajoutPanier','addToCart');
+$router->get('/panier','cart');
+
 
 
 $router->run();

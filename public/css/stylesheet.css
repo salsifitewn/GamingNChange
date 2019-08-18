@@ -1,0 +1,22 @@
+.card-img-top.thumbnail{
+    object-fit: cover;
+    width: 100%;
+    height: 30vh;
+}
+.img-top.platform{
+    object-fit: contain;
+
+}
+.card.wishlisted{
+    background-color: coral;    
+}
+.card.own{
+    background-color:greenyellow;    
+}
+.card:hover {
+    background-color: palevioletred;
+}
+
+.connecte{
+    background-color: lightgreen
+}

@@ -11,9 +11,9 @@ class Auth
         }
         return !empty($_SESSION['connecte']);
     }
-    public static function forcer_utilisateur_connecte(?string $url=null)
+    public static function forcer_utilisateur_connecte()
     {
-        if (!self::est_connecte() && isset($_SESSION['role']) && (int)$_SESSION['role'] == 0) {
+        if (!self::est_connecte() ) {
             header('Location: /login');
             exit();
         }
