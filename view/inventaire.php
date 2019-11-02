@@ -1,6 +1,6 @@
 <?php
 \App\Helpers\Auth::forcer_utilisateur_connecte();
-$user = App\Model\User::getUser((int) $_SESSION['id']);
+$user = App\Table\UsersTable::getUser((int) $_SESSION['id']);
 $games = $user->getGames();
 ?>
 <div class="container">

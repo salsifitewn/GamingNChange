@@ -4,30 +4,21 @@
 $cart = [];
 if (isset($_COOKIE['cart']))
     $cart = unserialize($_COOKIE['cart']);
-$game = (int) $_GET['gameid'] ?? null;
-$platform = (int) $_GET['platformid'] ?? null;
-$vendorid = (int) $_GET['vendorid'] ?? null;
+$itemid = (int) $_GET['itemid'] ?? null;
 $error = "";
-if (is_null($game) || is_null($platform) || is_null($vendorid))
+if (is_null($itemid))
     $error = "erreur d'item";
 if ($error === "") {
-    if (isset($_SESSION['id'])&&$vendorid == (int) $_SESSION['id'])
+    if (isset($_SESSION['id'])&&App\Table\UserItemTable::getOwner($itemid) == (int) $_SESSION['id'])
         $error = "Vous êtes le propriétaire du jeu";
     else {
-        $pdo = App\Connect::getDB();
-        $query = $pdo->query("SELECT * from user_collection where userid=$vendorid and gameid=$game and platformid=$platform and quantityToSell>0");
-        if (!$query->fetch())
-            $error = "La personne n'a pas le jeu";
+        if (App\Table\UserItemTable::getQuantityToSell($itemid)==0)
+            $error = "La personne n'a plus le jeu";
         else {
-            $article = [
-                'gameid' => $game,
-                'platform' => $platform,
-                'vendorid' => $vendorid
-            ];
-            if (in_array($article, $cart))
-                $error = "Aricle déjà dans votre panier";
+            if (in_array($itemid, $cart))
+                $error = "Article déjà dans votre panier";
             else {
-                $cart[] = $article;
+                $cart[] = $itemid;
                 setcookie('cart', serialize($cart));
                 $error = "Article ajouté dans votre panier";
             }

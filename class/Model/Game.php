@@ -15,7 +15,10 @@ class Game
     //createdat
     //url
     //urlscreenshot
-    
+
+    public $platformid;
+    public $value;
+
     public function getImage($url): ?string
     { 
         
@@ -25,6 +28,18 @@ class Game
     { 
         $pdo = Connect::getDB();
         $query = $pdo->query("SELECT platforms.*  from game_platforms,platforms where game_platforms.id_platform=platforms.id and game_platforms.id_game={$this->id}");
+        return $query->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    public function getwishlistedPlatforms(): ?array
+    { 
+        $pdo = Connect::getDB();
+        $query = $pdo->query("SELECT platforms.*  from user_item,platforms where user_item.platformid=platforms.id and user_item.gameid={$this->id} and quantityToBuy>0");
+        return $query->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    public function getOwnedPlatforms(): ?array
+    { 
+        $pdo = Connect::getDB();
+        $query = $pdo->query("SELECT platforms.*  from user_item,platforms where user_item.platformid=platforms.id and user_item.gameid={$this->id} and quantityToSell>0");
         return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
     public function getPublishers(): ?array
@@ -48,8 +63,10 @@ class Game
     public function getOwners($platform)
     {
         $pdo = Connect::getDB();
-        $query = $pdo->query("SELECT U.id,U.username,C.value FROM user_collection C,users U WHERE C.quantityToSell > 0 and C.userid=U.id and C.platformid=$platform and C.gameid={$this->id} order by C.value");
+        $query = $pdo->query("SELECT U.id,U.username,C.valueToSell,C.id as itemid FROM user_item C,users U WHERE C.quantityToSell > 0 and C.userid=U.id and C.platformid=$platform and C.gameid={$this->id} order by C.valueToSell");
         return $query->fetchall(\PDO::FETCH_CLASS,'App\Model\User');    
     }
+
+    
 
 }

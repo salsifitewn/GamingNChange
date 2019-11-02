@@ -33,7 +33,7 @@ class Igdb
     public function getLastGames(): ?array
     {
         //$time=time()-
-        $data = $this->callAPI("games", "fields name,platforms.platform_logo.url,first_release_date,cover.url,rating,summary,involved_companies.company.name,involved_companies.developer,involved_companies.publisher,release_dates.platform,release_dates.date,screenshots.url;where rating>90 & involved_companies>0 & cover>0 & category=0;limit 50");
+        $data = $this->callAPI("games", "fields name,platforms.platform_logo.url,first_release_date,cover.url,rating,summary,involved_companies.company.name,involved_companies.developer,involved_companies.publisher,release_dates.platform,release_dates.date,screenshots.url;where rating>90 & involved_companies>0 & cover>0 & category=0;limit 30");
         /* return [
             'temp' => $data['main']['temp'],
             'description' => $data['weather'][0]['description'],

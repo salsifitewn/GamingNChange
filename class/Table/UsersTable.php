@@ -3,13 +3,15 @@ namespace App\Table;
 use App\Connect;
 
 
-class Userstable extends Table
+class UsersTable extends Table
 {
 
 
 public static function getUser($id){
     $pdo = Connect::getDb();
-    return $pdo->query("Select * from users where id=$id")->fetch(\PDO::FETCH_CLASS,'App\Model\User');
+    $query=$pdo->query("Select * from users where id=$id");
+    $query->setFetchMode(\PDO::FETCH_CLASS,'App\Model\User');
+    return $query->fetch();
     
 }
 

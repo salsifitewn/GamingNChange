@@ -1,12 +1,13 @@
 <?php
 use App\Table\GamesTable;
+use App\Table\PlatformTable;
 
 \App\Helpers\Auth::forcer_utilisateur_connecte();
-$user=App\Model\User::getUser((int)$_SESSION['id']);
+$user=App\Table\UsersTable::getUser((int)$_SESSION['id']);
 $title = 'Recherche Jeu';
 $igdb = new App\Igdb("665a4a7b1bcc4222453547bbcd4455f2");
 $game = null;
-if (isset($_GET['gameSelected'])&&isset($_GET['platformSelected'])) {
+if (isset($_GET['gameSelected'])) {
     //$game = App\Igdb($_GET['gameSelected']);
     $id = (int)$_GET['gameSelected'];
     $res = \App\Connect::getDB()->query("select * from games where id=$id")->fetch(pdo::FETCH_ASSOC);
@@ -14,19 +15,22 @@ if (isset($_GET['gameSelected'])&&isset($_GET['platformSelected'])) {
         $gameid = $id;
         $game = $igdb->getGame($gameid);
         GamesTable::addGames($game);        
-        echo "Nouveau jeu ajouté<br>";
+        PlatformTable::updatePlatformTable();
+        header("Location:jeu?id=$gameid&new=1");
+        //echo "Nouveau jeu ajouté<br>";
 
     }
-    $user->add($_GET['gameSelected'],$_GET['platformSelected']);
-    echo "Vous possédez maintenant ce jeu<br>";
+  
 
 }
 $games = null;
 if (isset($_GET['gameName']))
     $games = $igdb->searchGames($_GET['gameName']);
 ?>
-<div class="container-fluid mt-4 ">
+<div class="container mt-4 ">
+
     <?php if (!is_null($games)) : ?>
+    Cliquez sur un jeu pour le rajouter à la liste des jeux
         <div class="table-responsive-sm">
             <table class="table table-striped table-hover table-sm">
                 <tr>
@@ -51,12 +55,12 @@ if (isset($_GET['gameName']))
                             <!-- <p class="card-text"> ?=$igdb->getPublisher($game['id'])?></p> -->
                             <td scope='col'>
                                 <?php if (isset($game['platforms'])) : ?>
-                                    <ul class="list-group small">
+                                    <ul class="">
                                         <?php foreach ($game['platforms'] as $platform) : ?>
-                                            <li class='list-group-item small'>
-                                            <a href="?gameSelected=<?= $game['id'] ?>&platformSelected=<?=$platform['id']?>">
+                                            <li class='badge badge-secondary'>
+                                            <span h="?gameSelected=<?= $game['id'] ?>&platformSelected=<?=$platform['id']?>">
                                                 <?= $platform['name'] ?>
-                                                </a>
+</span>
                                             </li>
                                         <?php endforeach ?>
                                     </ul>
@@ -67,7 +71,7 @@ if (isset($_GET['gameName']))
                             </td>
                             </td>
                             <td scope='col'>
-                                <p class="small "><?= $game['summary'] ?? 'Pas de Résumé' ?></p>
+                                <p class="small "><?= nl2br($game['summary'] ?? 'Pas de Résumé') ?></p>
                             </td>
                         </tr>
                     <?php endforeach ?>

@@ -18,6 +18,11 @@ class Auth
             exit();
         }
     }
-  
+    public static function est_admin():bool
+    {
+        self::est_connecte();
+        return ($_SESSION['role']==0);
+        
+    }
 
 }

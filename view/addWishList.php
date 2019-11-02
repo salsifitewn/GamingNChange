@@ -1,5 +1,4 @@
 <?php
-
 use App\Connect;
 
 \App\Helpers\Auth::forcer_utilisateur_connecte();
@@ -11,15 +10,25 @@ if (is_null($gameid) || is_null($platformid))
     header("location:accueil");
 
 $pdo = Connect::getDB();
-$query = $pdo->query("SELECT * FROM user_collection where userid=$user and gameid=$gameid and platformid=$platformid and quantityToSell>0");
+$query = $pdo->query("SELECT * FROM user_item where userid=$user and gameid=$gameid and platformid=$platformid and quantityToSell>0");
 if ($query->fetch() != null)
-    echo "déjà possédé";
+    $msg="déjà possédé";
 else {
-    $rank=(int)($pdo->query("select max(rank) from user_wishlist where userid=$user")->fetch()??"0");
-    if (!($pdo->exec("INSERT IGNORE into user_wishlist(userid,gameid,platformid,rank) values($user,$gameid,$platformid,$rank+1)")))
-        echo "déjà dans la liste de souhaits";
+    if (!($pdo->exec("INSERT IGNORE into user_item(userid,gameid,platformid,quantityToBuy,valueToBuy) values ($user,$gameid,$platformid,1,-1)
+        on duplicate key update quantityToBuy=quantityToBuy+1")))
+        $msg= "Ajout supplémentaire dans la liste de souhaits";
     else
-        echo "Ajouté!";
+        $msg= "Ajouté!";
 }
+header("location:Wishlist?msg=$msg");
 
-header("location:Wishlist");
+?>
+<div class="container mt-4 ">
+
+<div class="alert alert-info alert-dismissible fade show">
+    <?= htmlentities($msg) ?>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+</div>

@@ -1,3 +1,6 @@
+<?php
+$allPlatforms=App\Table\PlatformTable::getAllPlatforms();
+?>
 <!DOCTYPE html>
 <html class="h-100" lang="fr">
 
@@ -12,7 +15,7 @@
 
 </head>
 
-<body class="d-flex flex-column">
+<body class="d-flex flex-column ">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
 
@@ -30,7 +33,7 @@
         </li>
         <?php if (\App\Helpers\Auth::est_connecte() && $_SESSION['role'] == 0) : ?>
           <li class="nav-item">
-            <a class="nav-link" href="Adminer.php">adminer</a>
+            <a class="nav-link" href="adminer.php">adminer</a>
           </li>
         <?php endif ?>
         <!--   <li class="nav-item">
@@ -40,23 +43,31 @@
           <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mon Compte</a>
           <div class="dropdown-menu" aria-labelledby="dropdown03">
             <a class="dropdown-item" href="ajoutjeu">Ajout manuel d'un jeu</a>
+            <a class="dropdown-item" href="utilisateur">Ma Page</a>
             <a class="dropdown-item" href="mon_inventaire">Mes Jeux</a>
-            <a class="dropdown-item" href="#">Mes Ventes</a>
+            <a class="dropdown-item" href="transactions">Mes Transactions</a>
             <a class="dropdown-item" href="Wishlist">Mes Souhaits</a>
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contact">Contact</a>
+          <a class="nav-link" href="aide">Aide</a>
         </li>
       </ul>
-      <a class="nav-link" href="panier"><img class="img-fluid" width="30" height="30" src="assets\cart.png" alt="Panier"></a>
 
       <?php if (\App\Helpers\Auth::est_connecte()) : ?>
     <span class="navbar-text text-success">Connecté en tant que <?= htmlentities($_SESSION['username'] ?? "") ?></span>
     <?php endif ?>
       <form action="/recherche" method="GET" class="form-inline m-2 my-md-0">
+      <select class="custom-select mr-2" name="console" id="">
+            <option value="0" selected>Toutes Platformes</option>
+            <?php foreach($allPlatforms as $platform): ?>
+            <option value="<?= $platform['id']?>'"><?= $platform['name']?></option>
+            <?php endforeach ?>
+          </select>
         <input class="form-control" name="search" type="text" placeholder="Recherche Jeu">
+      
       </form>
+
     </div>
     
     <!-- Button trigger modal -->
@@ -70,8 +81,6 @@
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Se Connecter
       </button>
-
-
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
         <div class="modal-dialog" role="document">
@@ -97,7 +106,6 @@
                 <div class="modal-footer">
                   <a href="/login" type="button" class="btn btn-success">Inscription</a>
                   <button type="submit" class="btn btn-primary">Valider</button>
-
                 </div>
               </form>
             </div>
@@ -105,8 +113,10 @@
         </div>
       </div>
     <?php endif ?>
+    <a class="nav-link" href="panier"><img class="img-fluid" width="30" height="30" src="assets\cart.png" alt="Panier"></a>
+
   </nav>
-  <main class="bg-light">
+  <main class="<?= $backgroundcolor??"" ?>">
     <?= $pageContent ?>
   </main>
   <footer class="bg-light py-4 footer mt-2">

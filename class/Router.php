@@ -31,10 +31,13 @@ class Router
     {
         $match = $this->router->match();
         $view = $match['target'] ;
+        if(is_null($view)){
+         $view="pageError";
+        }
+
         ob_start();
         require $this->viewPath . '/' . $view . '.php';
         $pageContent = ob_get_clean();
-        //require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'elements' . DIRECTORY_SEPARATOR . 'layout.php'; 
         require $this->viewPath . '/elements/layout.php';
     }
 }

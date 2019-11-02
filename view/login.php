@@ -1,4 +1,5 @@
 <?php
+
 use App\Connect;
 use App\Model\User;
 
@@ -43,12 +44,17 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
 //  require_once 'functions/auth.php';
 
 //creation new user
-if (!empty($_POST['newusername']) && !empty($_POST['newpassword']) && !empty($_POST['newpasswordbis']) && !empty($_POST['email'])) {
+if (!empty($_POST['newusername']) && !empty($_POST['newpassword']) && !empty($_POST['newpasswordbis']) && !empty($_POST['email']) && !empty($_POST['zip']) && !empty($_POST['adress']) && !empty($_POST['city'])) {
     $username = htmlentities($_POST['newusername']);
     $password = htmlentities($_POST['newpassword']);
     $email = htmlentities($_POST['email']);
+    $adress = htmlentities($_POST['adress']);
+    $city = htmlentities($_POST['city']);
+    $zip = (int) ($_POST['zip']);
+
+
     if ($_POST['newpassword'] === $_POST['newpasswordbis']) {
-        $res = User::insertNewUser($username, $password, $email);
+        $res = User::insertNewUser($username, $password, $email, $adress, $zip, $city);
         if ($res == 0)
             $errors = "L'inscription n'a pas pu aboutir";
         else {
@@ -71,13 +77,16 @@ if (\App\Helpers\Auth::est_connecte()) {
             Merci de vous connecter ou de vous inscrire
         </div>
     <?php endif ?>
-    <div class="alert alert-primary" role="alert">
-        <?= $errors ?>
-    </div>
+    <?php if (!is_null($errors)) : ?>
+        <div class="alert alert-secondary" role="alert">
+            <?= $errors ?>
+        </div>
+    <?php endif ?>
+
 </div>
 
 <div class="container ">
-    <div class="row ">
+    <div class="row">
         <div class="col-md mt-2 bg-info rounded mr-1">
             <h5>Se connecter</h5>
             <form action="" method="post" class="form-signin">
@@ -98,7 +107,7 @@ if (\App\Helpers\Auth::est_connecte()) {
         </div>
         <div class="col-md mt-2 bg-success rounded ml-1">
             <div class="row">
-            <h5>Nouvelle Inscription</h5>
+                <h5>Nouvelle Inscription</h5>
             </div>
             <form action="" method="post" class="form-signin">
                 <div class="form-group">
@@ -124,6 +133,19 @@ if (\App\Helpers\Auth::est_connecte()) {
                     <?php endif ?>
                 </div>
                 <div class="form-group">
+                    <input type="text" class="form-control" name="adress" placeholder="Votre adresse" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" class="form-control" name="zip" pattern="[0-9]{5}" placeholder="Code Postal" required>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control" name="city" placeholder="Ville" required>
+                    </div>
+
+
+                </div>
+                <div class="form-group mt-2">
                     <button type="submit" class="btn btn-primary">S'inscrire</button>
                 </div>
             </form>

@@ -12,57 +12,50 @@ class User
     //role  
     //email
     //createdat
+
+    //owner U.id,U.username,C.value,C.id
+
     public function getGames(){
         $pdo = Connect::getDb();
-        return $pdo->query("Select games.* from games,user_collection where games.id=user_collection.gameid and userid={$this->id} and quantityToSell>0")->fetchAll(\PDO::FETCH_CLASS,'App\Model\Game');
+        return $pdo->query("SELECT Distinct games.* from games,user_item where games.id=user_item.gameid and userid={$this->id} and quantityToSell>0")->fetchAll(\PDO::FETCH_CLASS,'App\Model\Game');
     }
-
+    public function getGamesToSell(){
+        $pdo = Connect::getDb();
+        return $pdo->query("Select games.* from games,user_item where games.id=user_item.gameid and userid={$this->id} and quantityToSell>0 and valueToSell>0")->fetchAll(\PDO::FETCH_CLASS,'App\Model\Game');
+    }
     public function getWishlistedGames(){
         $pdo = Connect::getDb();
-        return $pdo->query("Select games.* from games,user_wishlist where games.id=user_wishlist.gameid and userid={$this->id} order by rank")->fetchAll(\PDO::FETCH_CLASS,'App\Model\Game');
+        return $pdo->query("SELECT distinct games.* from games,user_item where games.id=user_item.gameid and quantityToBuy>0 and userid={$this->id} ORDER BY id")->fetchAll(\PDO::FETCH_CLASS,'App\Model\Game');
     }
-
-    public function add(int $gameid, int $platformid,int $value=0):int{
+    public function getWishlistedItems(){
         $pdo = Connect::getDb();
-        return $pdo->exec("INSERT INTO user_collection(userid,gameid,platformid,quantityToSell,value)  values({$this->id},$gameid,$platformid,1,$value)
-        on duplicate key update quantityToSell=quantityToSell+1");
+        return $pdo->query("SELECT games.* from games,user_item where games.id=user_item.gameid and quantityToBuy>0 and userid={$this->id} ORDER BY id")->fetchAll(\PDO::FETCH_CLASS,'App\Model\Item');
     }
-   /*  public function remove(int $gameid, int $platformid,int $value):int{
+    public function add(int $gameid, int $platformid):int{
         $pdo = Connect::getDb();
-        $query=$pdo->query("SELECT * from user_collection where userid=$gameid and platfromid=$platformid and ")
-        return $pdo->exec("INSERT into user_collection(userid,gameid,platformid,quantityToSell,value) set values($gameid,$platformid,1,$value)
-        on duplicate key update quantityToSell=quantityToSell-1");
-    } */
+        return $pdo->exec("INSERT INTO user_item(userid,gameid,platformid,quantityToSell,valueToSell) values({$this->id},$gameid,$platformid,1,-1) 
+        on duplicate key update quantityToSell=quantityToSell+1,valueToSell=-1,
+            quantityToBuy=greatest((select quantityToBuy -1 from (select * from user_item) as oops where userid={$this->id} and gameid=$gameid and platformid=$platformid),0)");
+    }
+    public function remove(int $gameid, int $platformid):int{
+        $pdo = Connect::getDb();
+        $item=$pdo->query("SELECT id,valueToSell from user_item where userid={$this->id} and gameid=$gameid and platformid=$platformid and quantityToSell>0")->fetch();
+        if($item['valueToSell']>0)
+    return $pdo->exec("UPDATE user_item set quantityToSell=quantityToSell-1 where id={$item['id']}");
+      return 0;
+    } 
+    public function removeFromWishlist(int $gameid, int $platformid){
 
-    public static function insertNewUser(string $username,string $password,string $email):int{
+    }
+    public static function insertNewUser(string $username,string $password,string $email,string $adress, int $zip, string $city):int{
         $pdo = Connect::getDb();
-        return $pdo->exec("INSERT INTO users(username,password,role,email,created_at) Values ('$username','$password',1,'$email',now())");
+        return $pdo->exec("INSERT INTO users(username,password,role,email,adress,zip,city,created_at) Values ('$username','$password',1,'$email','$adress','$zip','$city',now())");
     }
 
     /* public function addToWishlist(int $gameid,int $platformid){
 
     } */
     
-    public static function getUser(int $id){
-        $pdo = Connect::getDb();
-        $query=$pdo->query("Select * from users where id=$id");
-        $query->setFetchMode(\PDO::FETCH_CLASS,'App\Model\User');
-        return $query->fetch();
-    }
-
-    public function getGameValue(int $gameid,int $platformid):?int
-    {
-        $pdo=Connect::getDB();
-        $query=$pdo->query("SELECT value from user_collection where userid={$this->id} and gameid=$gameid and platfromid=$platformid");
-        return $query->fetch();
-        
-    }
-    public  function addToBasket(){
-   
-        
-    }
-    public function getBasket(){
-
-    }
+  
 
  }

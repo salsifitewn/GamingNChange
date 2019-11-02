@@ -2,27 +2,36 @@
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
 
 use App\Connect;
+use Symfony\Component\VarDumper\VarDumper;
 
 function updateImages(string $table, string $column, string $size, string $folder,string $type='.jpg')
 {
     $pdo = Connect::getDB();
-    $query = $pdo->query("Select $column From $table");
-    while ($url = $query->fetch()[$column]) {
-        $url=str_replace('.jpg',$type,$url);
-        $newurl = dirname(__DIR__) . '/public/img/' . str_replace("//images.igdb.com/igdb/image/upload/t_$size/", "$folder/", $url);
-        if (!file_exists($newurl)) {
-            echo 'https:' . str_replace("$folder/", "//images.igdb.com/igdb/image/upload/t_$size/", $newurl);
-            file_put_contents($newurl, file_get_contents('https:' . str_replace("$folder/", "//images.igdb.com/igdb/image/upload/t_$size/", $url)));
-        }
-    }
-    $query2 = $pdo->exec("update $table set $column=replace($column,'/images.igdb.com/igdb/image/upload/t_$size/','$folder/') 
+    $query2 = $pdo->exec("update $table set $column=replace($column,'//images.igdb.com/igdb/image/upload/t_$size/','$folder/') 
     where $column like '%//images.igdb.com/igdb/image/upload/t_$size/%'");
     if($type!=='.jpg')
     $query2 = $pdo->exec("update $table set $column=replace($column,'.jpg','$type')");
 
+    $query = $pdo->query("Select $column From $table");
+    while ($url = $query->fetch()[$column]) {
+      
+        $weburl = str_replace("$folder/","//images.igdb.com/igdb/image/upload/t_$size/", $url);
+
+        $path= dirname(__DIR__) . '/public/img/' .str_replace('.jpg',$type,$url);
+        if (!file_exists($path)) {
+            echo $weburl."\n";
+            try{
+                $data=file_get_contents('https:' . str_replace("$folder/", "//images.igdb.com/igdb/image/upload/t_$size/", $weburl));
+                file_put_contents($path, $data);
+            }
+            catch(Exception $e){
+
+            }
+        }
+    }
 }
 updateImages('games','url','cover_big','cover');
-updateImages('games','url_screenshot','screenshot_big','screenshots');
+updateImages('games','url_screenshot','screenshot_huge','screenshots');
 updateImages('platforms','url_logo','logo_med','logo',".png");
 
 

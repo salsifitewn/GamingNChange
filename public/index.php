@@ -6,6 +6,7 @@ use App\Router;
 use App\Connect;
 define("ROOT_IMG",'/img/');
 define ('DEBUG_TIME',microtime(true));
+//permet d'avoir des erreurs plus explicites
 $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
@@ -23,6 +24,13 @@ $router->get('/','accueil');
 $router->get('/admin','admin');
 $router->get('/ajoutPanier','addToCart');
 $router->get('/panier','cart');
+$router->get('/achat','buy');
+$router->get('/transactions','showtransactions');
+$router->get('/aide','help');
+$router->get('/utilisateur','userPage');
+$router->get('/retirerJeuWishlist','removeWishList');
+
+
 
 
 

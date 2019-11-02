@@ -1,4 +1,4 @@
-    $query = $pdo->query("select * from user_collection where gameid={$_GET['id']}");
+    $query = $pdo->query("select * from user_item where gameid={$_GET['id']}");
     $collection = $query->fetchall(pdo::FETCH_ASSOC);
     $query2 = $pdo->prepare("select username from users where id=:id");
     $query3 = $pdo->prepare("select * from platform where id=:id ");
