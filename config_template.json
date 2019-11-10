@@ -1,0 +1,10 @@
+{
+    "database" : {
+        "host" : "localhost",
+        "user" : "userDB",
+        "password": "userPASS",
+        "dbname":"dbanme"
+    },
+    "igdb_api_key":""
+    
+}

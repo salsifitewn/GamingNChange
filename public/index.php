@@ -1,11 +1,11 @@
 <?php
 
-require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
+require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php'; // chargement des classes php avec composer
 
 use App\Router;
-use App\Connect;
 define("ROOT_IMG",'/img/');
-define ('DEBUG_TIME',microtime(true));
+define ('DEBUG_TIME',microtime(true)); 
+
 //permet d'avoir des erreurs plus explicites
 $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
@@ -29,10 +29,6 @@ $router->get('/transactions','showtransactions');
 $router->get('/aide','help');
 $router->get('/utilisateur','userPage');
 $router->get('/retirerJeuWishlist','removeWishList');
-
-
-
-
 
 $router->run();
 //dd($router->url( 'accueil', array( 'id' => 5 ) ));
