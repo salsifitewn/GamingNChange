@@ -9,7 +9,7 @@ class Router
 
     private $router;
 
-    public function __construct(string $view_Path,string $basePath)
+    public function __construct(string $view_Path,string $basePath="")
     {
         $this->viewPath = $view_Path;
         $this->router = new \AltoRouter();
