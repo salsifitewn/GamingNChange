@@ -9,10 +9,11 @@ class Router
 
     private $router;
 
-    public function __construct(string $view_Path)
+    public function __construct(string $view_Path,string $basePath)
     {
         $this->viewPath = $view_Path;
         $this->router = new \AltoRouter();
+        $this->router->setBasePath($basePath);
     }
 
     public function get(string $url, string $view, ?string $name = null)

@@ -3,6 +3,7 @@
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php'; // chargement des classes php avec composer
 
 use App\Router;
+define("BASE_URL","gamingnchange");
 define("ROOT_IMG",'/img/');
 define ('DEBUG_TIME',microtime(true)); 
 
@@ -11,7 +12,7 @@ $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
 
-$router = new Router(dirname(__DIR__).'/view');
+$router = new Router(dirname(__DIR__).'/view',BASE_URL);
 $router->get('/jeu','fichejeu');
 $router->get('/login','login');
 $router->get('/logout','logout');
