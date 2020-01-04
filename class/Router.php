@@ -17,8 +17,8 @@ class Router
 
     public function get(string $url, string $view, ?string $name = null)
     {
-        $this->router->map('GET', $url, $view, $name);
-        $this->router->map('POST', $url, $view, $name);
+        $this->router->map('GET|POST', $url, $view, $name);
+        //$this->router->map('POST', $url, $view, $name);
 
         //return $this;
     }
@@ -34,7 +34,7 @@ class Router
         if(is_null($view)){
          $view="pageError";
         }
-
+        $router=$this;  
         ob_start();
         require $this->viewPath . '/' . $view . '.php';
         $pageContent = ob_get_clean();

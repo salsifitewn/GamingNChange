@@ -19,7 +19,7 @@ $allPlatforms=App\Table\PlatformTable::getAllPlatforms();
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
 
-    <a class="navbar-brand" href="/"><img class="img-fluid" width="30" height="30" src="assets\logo.svg" alt="GameNchange.fr"></a>
+    <a class="navbar-brand" href="<?= $router->url('accueil')?>"><img class="img-fluid" width="30" height="30" src="assets\logo.svg" alt="GameNchange.fr"></a>
     <a class="navbar-brand" href="/">GamingNChange.fr</a>
     
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ $allPlatforms=App\Table\PlatformTable::getAllPlatforms();
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="aide">Aide</a>
+          <a class="nav-link" href="<?= $router->url('help')?>">Aide</a>
         </li>
       </ul>
 

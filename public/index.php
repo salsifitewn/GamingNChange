@@ -20,13 +20,13 @@ $router->get('/recherche','rechercheJeux');
 $router->get('/mon_inventaire','inventaire');
 $router->get('/ajouterJeuWishlist','addWishList');
 $router->get("/Wishlist",'wishList');
-$router->get('/','accueil');
+$router->get('/','accueil','accueil');
 $router->get('/admin','admin');
 $router->get('/ajoutPanier','addToCart');
 $router->get('/panier','cart');
 $router->get('/achat','buy');
 $router->get('/transactions','showtransactions');
-$router->get('/aide','help');
+$router->get('/aide','help','help');
 $router->get('/utilisateur','userPage');
 $router->get('/retirerJeuWishlist','removeWishList');
 
