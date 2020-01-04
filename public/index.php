@@ -3,7 +3,7 @@
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php'; // chargement des classes php avec composer
 
 use App\Router;
-define("BASE_URL","gamingnchange");
+define("BASE_URL","/gamingnchange/");
 define("ROOT_IMG",'/img/');
 define ('DEBUG_TIME',microtime(true)); 
 
