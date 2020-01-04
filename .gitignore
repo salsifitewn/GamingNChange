@@ -2,3 +2,5 @@ vendor/
 public/img/*
 sql/
 config.json
+composer.phar
+
