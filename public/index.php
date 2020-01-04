@@ -3,7 +3,15 @@
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php'; // chargement des classes php avec composer
 
 use App\Router;
-define("BASE_URL","/gamingnchange/");
+try {
+	$jsonStr = file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . "config.json"); //Recupère les infos de connection
+	$config = json_decode($jsonStr, true);
+	$baseURL = $config['baseURL'];
+}	catch (\Exception $e) {
+		$e->getMessage();
+		echo $e;
+}
+define("BASE_URL",$baseURL);
 define("ROOT_IMG",'/img/');
 define ('DEBUG_TIME',microtime(true)); 
 

@@ -5,6 +5,6 @@
         "password": "userPASS",
         "dbname":"dbanme"
     },
-    "igdb_api_key":""
-    
+    "igdb_api_key":"",
+    "baseURL":""
 }

@@ -29,7 +29,7 @@ $allPlatforms=App\Table\PlatformTable::getAllPlatforms();
     <div class="collapse navbar-collapse" id="navbarsExample03">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="<?= $router->url('accueil')?>">Accueil <span class="sr-only">(current)</span></a>
         </li>
         <?php if (\App\Helpers\Auth::est_connecte() && $_SESSION['role'] == 0) : ?>
           <li class="nav-item">
@@ -40,7 +40,7 @@ $allPlatforms=App\Table\PlatformTable::getAllPlatforms();
           <a class="nav-link disabled" href="#">Disabled</a>
         </li> -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mon Compte</a>
+          <a class="nav-link dropdown-toggle" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mon Compte</a>
           <div class="dropdown-menu" aria-labelledby="dropdown03">
             <a class="dropdown-item" href="ajoutjeu">Ajout manuel d'un jeu</a>
             <a class="dropdown-item" href="utilisateur">Ma Page</a>
