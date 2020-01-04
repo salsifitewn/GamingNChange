@@ -62,10 +62,7 @@ if (App\Helpers\Auth::est_connecte()) {
                         <th colspan="2">Prix Demandé</th>
                     </tr>
                     <?php foreach ($owners as $owner) : ?>
-                        <?php if (isset($user->id) && $user->id == $owner->id) {
-                                        $ownedmsg = " (Vous)";
-                                    }
-                                    ?>
+                        <?php $ownedmsg= (isset($user->id) && $user->id == $owner->id)? " (Vous)": ""  ?>
                         <tr>
                             <td class="<?= $owned ?>"><a href="utilisateur?id=<?= $owner->id ?>"><?= $owner->username ?><span class="badge badge-warning"><?= $ownedmsg ?? "" ?></span></a></td>
                             <?php if (isset($user->id) && $user->id == $owner->id) : ?>

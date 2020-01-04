@@ -34,6 +34,9 @@ updateImages('games','url','cover_big','cover');
 updateImages('games','url_screenshot','screenshot_huge','screenshots');
 updateImages('platforms','url_logo','logo_med','logo',".png");
 
+//update images url
+//get images url
+
 
 /* $pdo = Connect::getDB();
 $query = $pdo->query("Select url From games");
